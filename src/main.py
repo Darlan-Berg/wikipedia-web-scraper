@@ -1,5 +1,6 @@
 import streamlit as st
 from utils import wk_url_validate, download_page, WkUrlNotFound
+from scraper import get_wikipedia_links, get_image_filenames, get_table_of_contents
 
 st.set_page_config(
     page_title="Wikipedia Web Scraper",
@@ -27,7 +28,7 @@ st.markdown(
 )
 
 st.title("Wikipedia Web Scraper")
-st.caption("Por Darlan Berg e Gabriela Mangabeira")
+st.caption("Por Darlan Berg e Gabriela Marques Mangueira")
 
 # Formulário
 with st.form(key="url_form"):
@@ -61,5 +62,8 @@ with st.form(key="url_form"):
 
 # Parte dos resultados da busca (por enquanto retorna apenas HTML)
 if st.session_state.show_results:
+    print("topicos: ", get_table_of_contents(html_code))
+    print("\nimagens:", get_image_filenames(html_code))
+    print("\nlinks:", get_wikipedia_links(html_code))
     st.header("Resultados da Busca")
     st.code(html_code, language="html")
