@@ -36,7 +36,7 @@ with st.form(key="url_form"):
     url = st.text_input("Digite uma URL da Wikipedia")
     validated_url = wk_url_validate(url)
 
-    options = ["Tópicos de índice do artigo", "nomes de arquivos e imagens", "Links para outros artigos da Wikipedia"]
+    options = ["Tópicos de índice do artigo", "Nomes de arquivos e imagens", "Links para outros artigos da Wikipedia"]
     slct_options = st.multiselect(
         "Selecione o que buscar na página.",
         options = options,
@@ -60,10 +60,31 @@ with st.form(key="url_form"):
         except WkUrlNotFound as e:
             st.write(e)
 
-# Parte dos resultados da busca (por enquanto retorna apenas HTML)
 if st.session_state.show_results:
-    print("topicos: ", get_table_of_contents(html_code))
-    print("\nimagens:", get_image_filenames(html_code))
-    print("\nlinks:", get_wikipedia_links(html_code))
-    st.header("Resultados da Busca")
-    st.code(html_code, language="html")
+    # Iterar pelas opções selecionadas
+    for option in slct_options:
+        match option:
+
+            case "Tópicos de índice do artigo":
+                st.subheader("Tópicos de índice do artigo")
+                # Iterar pelos tópicos da página
+                st.write("<ul>", unsafe_allow_html=True)
+                for topic in get_table_of_contents(html_code):
+                    st.write(f"<li>{topic}</li>", unsafe_allow_html=True)
+                st.write("</ul>", unsafe_allow_html=True)
+
+            case "Nomes de arquivos e imagens":
+                st.subheader("Nomes de arquivos e imagens")
+                # Iterar pelos nomes de arquivos de imagem
+                st.write("<ul>", unsafe_allow_html=True)
+                for img_file_name in get_image_filenames(html_code):
+                    st.write(f"<li>{img_file_name}</li>", unsafe_allow_html=True)
+                st.write("</ul>", unsafe_allow_html=True)
+            
+            case "Links para outros artigos da Wikipedia":
+                st.subheader("Links para outros artigos da Wikipedia")
+                # Iterar pelos links da Wikipedia
+                st.write("<ul>", unsafe_allow_html=True)
+                for link in get_wikipedia_links(html_code):
+                    st.write(f"<li>{link}</li>", unsafe_allow_html=True)
+                st.write("</ul>", unsafe_allow_html=True)

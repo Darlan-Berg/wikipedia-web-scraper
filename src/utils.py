@@ -29,6 +29,7 @@ def wk_url_validate(url: str):
 def download_page(url: str):
     """Faz uma requisição GET para a URL informada. Se o status de resposta não
     estiver na faixa 2xx, lança WkUrlNotFound.
+    Retorna um objeto Response.
     """
 
     headers = { "User-Agent": "WebScraper/1.0" }
