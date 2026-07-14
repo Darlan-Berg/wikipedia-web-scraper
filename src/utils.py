@@ -22,8 +22,8 @@ def wk_url_validate(url: str):
     """Usa Regex para validar uma URL da Wikipedia, retornando True ou False.
     """
 
-    wk_url_regex = "^(https://pt.wikipedia.org/)(\\w*)|^(https://pt.wikipedia.org/?)"
-    return (re.search(wk_url_regex, url) != None)
+    wk_url_regex = r'https?://\w+\.wikipedia\.org/wiki/([^:#"\s]+)'
+    return (re.search(wk_url_regex, url) is not None)
 
 
 def download_page(url: str):
