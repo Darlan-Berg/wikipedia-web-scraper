@@ -27,7 +27,7 @@
    pip install -r requirements.txt
    ```
 
-6. Execute o projeto:
+6. Use o Streamlit para executar o projeto:
    ```bash
-   python3 main.py
+   streamlit run main.py
    ```
