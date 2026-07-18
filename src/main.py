@@ -1,6 +1,6 @@
 import streamlit as st
 from utils import wk_url_validate, download_page, WkUrlNotFound
-from scraper import get_wikipedia_links, get_image_filenames, get_table_of_contents, get_aria_labels, get_alt_text
+from scraper import get_wikipedia_links, get_image_filenames, get_table_of_contents
 
 st.set_page_config(
     page_title="Wikipedia Web Scraper",
@@ -39,9 +39,7 @@ with st.form(key="url_form"):
     options = [
         "Tópicos de índice do artigo", 
         "Nomes de arquivos e imagens", 
-        "Links para outros artigos da Wikipedia",
-        "Textos alternativos de imagens",
-        "Etiquetas de acessibilidade"
+        "Links para outros artigos da Wikipedia"
         ]
     slct_options = st.multiselect(
         "Selecione o que buscar na página.",
@@ -95,23 +93,5 @@ if st.session_state.show_results:
                     html_list = '<ol style="word-break: break-all">'
                     for link in get_wikipedia_links(html_code):
                         html_list += f"<li>{link}</li>"
-                    html_list += "</ol>"
-                    st.write(html_list, unsafe_allow_html=True)
-            
-            case "Textos alternativos de imagens":
-                with st.expander("Textos alternativos de imagens", expanded=False):
-                    # Iterar pelos textos alternativos
-                    html_list = '<ol style="word-break: break-all">'
-                    for alt_text in get_alt_text(html_code):
-                        html_list += f"<li>{alt_text}</li>"
-                    html_list += "</ol>"
-                    st.write(html_list, unsafe_allow_html=True)
-            
-            case "Etiquetas de acessibilidade":
-                with st.expander("Etiquetas de acessibilidade", expanded=False):
-                    # Iterar pelos rótulos de acessibilidade
-                    html_list = '<ol style="word-break: break-all">'
-                    for aria_label in get_aria_labels(html_code):
-                        html_list += f"<li>{aria_label}</li>"
                     html_list += "</ol>"
                     st.write(html_list, unsafe_allow_html=True)

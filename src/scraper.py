@@ -32,17 +32,3 @@ def get_wikipedia_links(html_content: str) -> list[str]:
     links = list(set(content))
 
     return [f"https://{dominio}/wiki/{artigo}" for dominio, artigo in links]
-
-def get_aria_labels(html_content: str) -> list[str]:
-    """Extrai os textos dos atributos aria-label do conteúdo HTML.
-    Retorna uma lista com todos os textos de aria-labels encontrados.
-    """
-    pattern = r'aria-label="([^"]*)"'
-    return re.findall(pattern, html_content)
-
-def get_alt_text(html_content: str) -> list[str]:
-    """Extrai os textos alternativos (atributos alt) do conteúdo HTML.
-    Retorna uma lista com todos os textos alternativos encontrados.
-    """
-    pattern = r'alt="([^"]*)"'
-    return re.findall(pattern, html_content)
