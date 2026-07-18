@@ -22,10 +22,16 @@ def get_image_filenames(html_content: str) -> list[str]:
 
     return list(set(filenames))
 
+
+
+
+
+
+
+
+
 def get_wikipedia_links(html_content: str) -> list[str]:
-    """Extrai links para artigos da Wikipédia do conteúdo HTML.
-    Retorna lista com URLs únicas de artigos encontrados no formato https://dominio/wiki/artigo.
-    """
+    
     pattern = r'href="(?:https?:)?//(\w+\.wikipedia\.org)/wiki/([^:#"\s]+)"'
 
     content = re.findall(pattern, html_content)
