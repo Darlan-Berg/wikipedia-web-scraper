@@ -51,20 +51,24 @@ with st.form(key="url_form"):
 
     if not validated_url:
         st.warning("A URL não possui a estrutura de uma página da Wikipedia.")
+        st.session_state.show_results = False
     if not slct_options:
         st.warning("É preciso selecionar ao menos uma opção.")
+        st.session_state.show_results = False
     elif validated_url and slct_options:
         # A partir desse ponto resta fazer a requisição do HTML da página
         try:
             wk_page = download_page(url)
-            html_code = wk_page.content.decode("utf-8")
+            st.session_state.html_code = wk_page.content.decode("utf-8")
             show_results()
             st.success("Formulário submetido com sucesso.")
 
         except WkUrlNotFound as e:
-            st.write(e)
+            st.error(str(e))
+            st.session_state.show_results = False
 
-if st.session_state.show_results:
+html_code = st.session_state.get("html_code", "")
+if st.session_state.show_results and html_code:
     # Iterar pelas opções selecionadas
     for option in slct_options:
         match option:
